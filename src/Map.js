@@ -23,17 +23,47 @@ const Map = () => {
     });
 
     // Add navigation control (the +/- zoom buttons)
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
     map.addControl(
-      new MapboxDirections({
-        accessToken: mapboxgl.accessToken,
-        unit: "metric",
-        profile: "mapbox/driving",
-      }),
-      "top-left"
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+      })
     );
 
+    // Add directiions control
+    const directions = new MapboxDirections({
+      accessToken: mapboxgl.accessToken,
+      unit: "metric",
+      profile: "mapbox/driving",
+      controls: { instructions: false, profileSwitcher: false },
+    });
+    map.addControl(directions, "top-left");
+
+    // Docs for route event is here:
+    // https://github.com/mapbox/mapbox-gl-directions/blob/master/API.md#on`enter code here`
+    directions.on("route", (e) => {
+      // routes is an array of route objects as documented here:
+      // https://docs.mapbox.com/api/navigation/#route-object
+      let routes = e.route;
+
+      // Each route object has a distance property
+      console.log(
+        "Route lengths",
+        routes.map((r) => r.distance)
+      );
+
+      // console.log(
+      //   "liter",
+      //   routes.map((r) => r.distance / 10000)
+      // );
+    });
+
+    // Get center coordinates of the map
     // map.on("move", () => {
     //   setLng(map.getCenter().lng.toFixed(4));
     //   setLat(map.getCenter().lat.toFixed(4));
@@ -46,11 +76,11 @@ const Map = () => {
 
   return (
     <div>
-      <div className="sidebarStyle">
-        {/* <div>
+      {/* <div className="sidebarStyle">
+        <div>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div> */}
-      </div>
+        </div>
+      </div> */}
       <div className="map-container" ref={mapContainerRef} />
     </div>
   );
