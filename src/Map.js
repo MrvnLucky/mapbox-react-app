@@ -12,6 +12,7 @@ const Map = () => {
   const [lng, setLng] = useState(5);
   const [lat, setLat] = useState(34);
   const [zoom, setZoom] = useState(1.5);
+  const [routeDistance, setRouteDistance] = useState(0);
 
   // Initialize map when component mounts
   useEffect(() => {
@@ -50,17 +51,13 @@ const Map = () => {
       // routes is an array of route objects as documented here:
       // https://docs.mapbox.com/api/navigation/#route-object
       let routes = e.route;
+      let rDistance = routes.map((r) => r.distance);
 
-      // Each route object has a distance property
-      console.log(
-        "Route lengths",
-        routes.map((r) => r.distance)
-      );
+      // logs the route distance
+      console.log("rDistance", rDistance);
 
-      // console.log(
-      //   "liter",
-      //   routes.map((r) => r.distance / 10000)
-      // );
+      // Save the distance
+      setRouteDistance(rDistance);
     });
 
     // Get center coordinates of the map
@@ -76,12 +73,10 @@ const Map = () => {
 
   return (
     <div>
-      {/* <div className="sidebarStyle">
-        <div>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-      </div> */}
       <div className="map-container" ref={mapContainerRef} />
+      <div className="sidebarStyle">
+        <div>Distance: {routeDistance}</div>
+      </div>
     </div>
   );
 };
