@@ -12,7 +12,7 @@ const Map = () => {
   const [lng, setLng] = useState(5);
   const [lat, setLat] = useState(34);
   const [zoom, setZoom] = useState(1.5);
-  const [routeDistance, setRouteDistance] = useState(0);
+  const [routeDistance, setRouteDistance] = useState("");
 
   // Initialize map when component mounts
   useEffect(() => {
@@ -53,19 +53,9 @@ const Map = () => {
       let routes = e.route;
       let rDistance = routes.map((r) => r.distance);
 
-      // logs the route distance
-      console.log("rDistance", rDistance);
-
       // Save the distance
       setRouteDistance(rDistance);
     });
-
-    // Get center coordinates of the map
-    // map.on("move", () => {
-    //   setLng(map.getCenter().lng.toFixed(4));
-    //   setLat(map.getCenter().lat.toFixed(4));
-    //   setZoom(map.getZoom().toFixed(2));
-    // });
 
     // Clean up on unmount
     return () => map.remove();
@@ -75,7 +65,18 @@ const Map = () => {
     <div>
       <div className="map-container" ref={mapContainerRef} />
       <div className="sidebarStyle">
-        <div>Distance: {routeDistance}</div>
+        <div>
+          <input type="radio" value="pertamax" id="pertamax" name="gasType" />
+          <label for="pertamax">pertamax</label>
+
+          <input type="radio" value="pertalite" id="pertalite" name="gasType" />
+          <label for="pertalite">pertalite</label>
+        </div>
+
+        <div>Distance: {routeDistance / 1000} KM</div>
+        <div>Liter: {routeDistance / 10000} L</div>
+
+        <div>Rp: {(routeDistance / 10000) * 7000} rupiah</div>
       </div>
     </div>
   );
