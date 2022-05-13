@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -32,11 +40,8 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
-}
-
-.map-container {
-  height: 400px;
 }
