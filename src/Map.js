@@ -9,9 +9,9 @@ mapboxgl.accessToken =
 const Map = () => {
   const mapContainerRef = useRef(null);
 
-  const [lng, setLng] = useState(5);
-  const [lat, setLat] = useState(34);
-  const [zoom, setZoom] = useState(1.5);
+  // const [lng, setLng] = useState(5);
+  // const [lat, setLat] = useState(34);
+  // const [zoom, setZoom] = useState(1.5);
   const [routeDistance, setRouteDistance] = useState("");
 
   // Initialize map when component mounts
@@ -19,8 +19,8 @@ const Map = () => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
+      center: [0, 0],
+      zoom: 1,
     });
 
     // Add navigation control (the +/- zoom buttons)
